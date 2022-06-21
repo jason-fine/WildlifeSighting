@@ -3,10 +3,24 @@ var express = require('express')
 var app = express()
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose')
-
-const PORT = 3000
+var cookieParser = require('cookie-parser')
+var session = require('express-session')
+var passport = require('passport')
 const cors = require('cors')
+app.use(cookieParser());
+// new code below
+app.use(session({
+  secret: 'SEIRocks!',
+  resave: false,
+  saveUninitialized: true
+}));
+//
+app.use(passport.initialize());
+app.use(passport.session());
 
+// new code below
+require('./config/passport');
+//
 
   
 var fs = require('fs');
