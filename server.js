@@ -1,18 +1,59 @@
-const express = require('express')
-const app = express()
-const PORT = 6000
+var express = require('express');
+var path = require('path');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+// session middleware
+var session = require('express-session');
+var passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const Student = require('./models/student')
+var methodOverride = require('method-override');
 
-const morgan = require('morgan')
-const path = require('path')
-const methodOverride=require('method-override')
 
-const sightingsRoutes = require('./routes/sightingsRoutes')
-app.use(sightingsRoutes)
+// load the env vars
+require('dotenv').config();
 
-app.get('/',(req,res) => {
-    res.send('Welcome to my page')
-})
+// create the Express app
+var app = express();
 
-app.listen(PORT,function(){
-    console.log('Listening on port', PORT)
-})
+// connect to the MongoDB with mongoose
+require('./config/database');
+// configure Passport
+require('./config/passport');
+
+// require our routes
+var indexRoutes = require('./routes/index');
+var studentsRoutes = require('./routes/students');
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+// mount the session middleware
+app.use(session({
+  secret: 'SEI Rocks!',
+  resave: false,
+  saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+// mount all routes with appropriate base paths
+app.use('/', indexRoutes);
+app.use('/', studentsRoutes);
+//app.use('/', sightingsRoutes);
+
+// invalid request, send 404 page
+app.use(function(req, res) {
+  res.status(404).send('Cant find that!');
+});
+
+module.exports = app;
