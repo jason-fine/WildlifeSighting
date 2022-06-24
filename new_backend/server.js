@@ -3,6 +3,7 @@ const express = require('express')
 const app = express();
 const PORT = 3000;
 const sightingRoutes = require('./routes/sightingRoutes')
+const userRoutes = require('./routes/userRoutes')
 
 var cookieParser = require('cookie-parser');
 // new code below
@@ -28,6 +29,7 @@ app.get('/', (req,res)=>{
 })
 
 app.use('/sighting', sightingRoutes)
+app.use('/user',userRoutes)
 
 app.listen(PORT, () =>{
     console.log('Listening', PORT)
