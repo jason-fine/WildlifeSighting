@@ -10,14 +10,16 @@ const cors = require('cors')
 app.use(cookieParser());
 // new code below
 app.use(session({
-  secret: 'SEIRocks!',
-  resave: false,
-  saveUninitialized: true
+    secret: 'SEIRocks!',
+    resave: false,
+    saveUninitialized: true
 }));
-//
+
+require('dotenv').config();
 app.use(passport.initialize());
 app.use(passport.session());
 
+//
 // new code below
 require('./config/passport');
 //
@@ -25,11 +27,10 @@ require('./config/passport');
   
 var fs = require('fs');
 var path = require('path');
-require('dotenv/config');
 //require('./db/connection')
 
-mongoose.connect(process.env.MONGO_URL,
-    { useNewUrlParser: true, useUnifiedTopology: true }, err => {
+mongoose.connect(process.env.DATABASE_URL,
+    { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }, err => {
         console.log('connected')
     });
 
