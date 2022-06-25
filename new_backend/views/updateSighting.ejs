@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sighting Update Page</title>
+</head>
+<body>
+    <a href="/sighting">Go Back</a>
+    <h1>Sighting Update Page</h1>
+    <h2>Name: <%= sighting.name %></h2>
+    <h2>Location: <%= sighting.location %></h2>
+
+    <form method="POST" action="/sighting/<%= sighting._id %>?_method=PATCH">
+        Name: <input name="name" type="text">
+        Location: <input name="location" type="text">
+        <input type="submit" value="Edit Sighting">
+    </form>
+
+    <form method="POST" action="/sighting/<%= sighting._id %>?_method=DELETE">
+        <input type="submit" value="Delete Sighting">
+    </form>
+</body>
+</html>

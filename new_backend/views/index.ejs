@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Uploading</title>
+</head>
+  
+<body>
+    <h1>Upload Your Wildlife sighting</h1>
+    <hr>
+    <div>
+        <form action="/sighting" method="POST">
+            <div>
+                <label for="name">Name of Animal/Plant</label>
+                <input type="text" id="name" placeholder="Name" 
+                       value="" name="name" required>
+            </div>
+            <div>
+                <label for="location">Location</label>
+                <input type="text" id="location" placeholder="Location" 
+                value="" name="location" required>
+            </input>
+            </div>
+            <div>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+  
+    <hr>
+  
+    <h1>Noted Wildlife Locations</h1>
+    
+    <ul>
+        <% allSightings.forEach((el) => { %>
+          <a href="/sighting/<%= el._id %>">
+            <li>Name: <%= el.name %>  Location: <%= el.location %></li>
+          </a>
+        <% }) %>
+      </ul>
+
+</body>
+  
+</html>
